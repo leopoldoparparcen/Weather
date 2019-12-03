@@ -1,0 +1,30 @@
+version: '2.1'
+
+services:
+  web:
+    image: weather:0.0.1
+    hostname: web
+    build: .
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./src/weather:/app
+  worker:
+    image: weather:0.0.1
+    hostname: worker
+    build: .
+    command: celery -A weather worker -l INFO
+    volumes:
+      - ./src/weather:/app
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    hostname: rabbitmq
+    ports:
+      - 15672:15672
+  redis:
+    image: redis:5.0
+    hostname: redis
+  postgres:
+    image: postgres:11.5
+    hostname: postgres
