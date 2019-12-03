@@ -1,5 +1,5 @@
 django
 djangorestframework
 celery
-redis
+# redis (necesito instalar Linux para este)
 psycopg2
