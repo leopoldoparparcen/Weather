@@ -10,3 +10,26 @@ class WeatherReport(models.Model):
 	humidity =  models.IntegerField() #humedad
 	windSpeed =  models.IntegerField() #velocidad de viento
 	windDirection =  models.CharField(max_length=5) #direccion del viento maximo 5 caracteres
+
+
+class WeatherFiles(models.Model):
+
+	created = models.DateTimeField(auto_now_add = True)#fecha
+	archive_file = models.CharField(max_length = 200)
+    # Para crear las opciones para el campo status
+	PENDING = 'PE'
+	RUNNING = 'RU'
+	COMPLETE = 'CO'
+	FAILURE = 'FA' 
+	STATUS_CHOICES = [
+		(PENDING, 'Pending'),
+		(RUNNING, 'Running'),
+		(COMPLETE, 'Complete'),
+		(FAILURE, 'Failure'),
+	]
+
+	status = models.CharField(max_length=2, choices = STATUS_CHOICES, default = PENDING,)
+
+
+
+
