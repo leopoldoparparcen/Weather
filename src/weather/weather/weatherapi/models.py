@@ -15,7 +15,8 @@ class WeatherReport(models.Model):
 class WeatherFiles(models.Model):
 
 	created = models.DateTimeField(auto_now_add = True)#fecha
-	archive_file = models.CharField(max_length = 200)
+	archive_file = models.CharField(max_length = 200) 
+	file = models.FileField(blank=False, null=False) # se crea este campo para guardar de archivos a base de datos
     # Para crear las opciones para el campo status
 	PENDING = 'PE'
 	RUNNING = 'RU'

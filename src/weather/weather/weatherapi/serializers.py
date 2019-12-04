@@ -13,4 +13,4 @@ class  WeatherFilesSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeatherFiles
         # se toman todos los campos del modelo
-        fields = ['id','created','archive_file','status']        
+        fields = ['id','created','archive_file','status','file']        

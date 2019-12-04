@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from weather.weatherapi.models import WeatherReport, WeatherFiles
-from weather.weatherapi.serializers import WeatherReportSerializer, WeatherFilesSerializer
+from rest_framework.parsers import JSONParser, FileUploadParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .models import WeatherReport, WeatherFiles
+from .serializers import WeatherReportSerializer, WeatherFilesSerializer
 
 
 # Funcion para mostar la lista de reporte 
@@ -98,3 +101,17 @@ def WeatherFiles_detail(request, pk):
         report.delete()
         return HttpResponse(status=204)
 
+# para la subida de archivo a base de datos
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    # se declara la funcion para la subida de archivos a la base de datos
+    def post(self, request, *args, **kwargs):
+
+      file_serializer = WeatherFilesSerializer(data=request.data)
+
+      if file_serializer.is_valid():
+          file_serializer.save()
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
